@@ -62,6 +62,18 @@ Humanoid.prototype.destroy = function(){
  return `${this.name} was removed from the game.` 
 }
 
+Humanoid.prototype.removeHealth = function(){
+  let damage = Math.floor(Math.random(10) * 50);
+  this.healthPoints - damage
+}
+
+// Humanoid.prototype.attack = function(enemy){
+//   let damage = Math.floor(Math.random(10) * 50);
+//   enemy.removeHealth(damage)
+//   // return `${this.name} does ${damage} to ${enemy.name}, ${enemy.name} now has ${enemy.healthPoints - damage} health points`
+// }
+
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -128,3 +140,51 @@ Humanoid.prototype.destroy = function(){
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+
+  class Villain extends Humanoid{
+    constructor(attributes){
+      super(attributes)
+    }
+  }
+  class Hero extends Humanoid{
+    constructor(attributes){
+      super(attributes)
+    }
+  }
+
+   const licht = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 2,
+      width: 3,
+      height: 6,
+    },
+    healthPoints: 200,
+    name: 'Licht',
+    team: 'Diamond Kingdom',
+    weapons: [
+      'Light-Magic',
+      'Spatial-Magic',
+      'Fire',
+    ],
+    language: 'Elvish',
+   })
+
+   const yami = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 2,
+      width: 3,
+      height: 6,
+    },
+    healthPoints: 150,
+    name: 'Yami',
+    team: 'Black Bulls',
+    weapons: [
+      'Katana',
+      'Dark-Magic',
+    ],
+    language: 'Common Tongue',
+   })
+
