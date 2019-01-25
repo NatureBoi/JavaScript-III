@@ -67,19 +67,58 @@ function Humanoid(humanattributes) {
   this.team = humanattributes.team;
   this.weapons = humanattributes.weapons;
   this.language = humanattributes.language;
+  this.ultimate = humanattributes.ultimate;
 }
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 Humanoid.prototype.greet = function() {
   return `${this.name} offers a greeting in ${this.language}`;
 };
+Humanoid.prototype.ult = function(enemy) {
+  let damage = Math.floor(Math.random() * (100 - 50) + 50);
+  enemy.healthPoints -= damage;
+  if (enemy.healthPoints <= 0) {
+    return `${this.name} uses ${this.ultimate} on ${
+      enemy.name
+    } for ${damage} points! ${enemy.destroy()}`;
+  } else {
+    return `${this.name} uses ${this.ultimate} on ${
+      enemy.name
+    }, and deals ${damage} points of damage`;
+  }
+};
 
 function Hero(heroattributes) {
   Humanoid.call(this, heroattributes);
 }
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+Hero.prototype.att = function(enemy) {
+  let damage = Math.floor(Math.random() * 50);
+  enemy.healthPoints -= damage;
+  if (enemy.healthPoints <= 0) {
+    return enemy.destroy();
+  } else {
+    return `${enemy.name} took ${damage} points of damage`;
+  }
+};
+
 function Villain(villainattributes) {
   Humanoid.call(this, villainattributes);
 }
+
+Villain.prototype = Object.create(Humanoid.prototype);
+
+Villain.prototype.att = function(enemy) {
+  let damage = Math.floor(Math.random(100) * 50);
+  enemy.healthPoints -= damage;
+  if (enemy.healthPoints <= 0) {
+    return enemy.destroy();
+  } else {
+    return `${enemy.name} took ${damage} points of damage`;
+  }
+};
 
 const mage = new Humanoid({
   createdAt: new Date(),
@@ -150,7 +189,8 @@ const licht = new Villain({
   name: "Licht",
   team: "Diamond Kingdom",
   weapons: ["Light-Magic", "Spatial-Magic", "Fire"],
-  language: "Elvish"
+  language: "Elvish",
+  ultimate: "Light Blade"
 });
 
 const yami = new Hero({
@@ -164,5 +204,14 @@ const yami = new Hero({
   name: "Yami",
   team: "Black Bulls",
   weapons: ["Katana", "Dark-Magic"],
-  language: "Common Tongue"
+  language: "Common Tongue",
+  ultimate: "Shadow Slash"
 });
+
+console.log(yami.att(licht));
+console.log(licht.att(yami));
+console.log(yami.att(licht));
+console.log(licht.att(yami));
+console.log(yami.ult(licht));
+console.log(licht.ult(yami));
+console.log(yami.ult(licht));
